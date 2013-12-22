@@ -71,13 +71,17 @@ function centerText(canvas, text, startColor, endColor) {
 function Buffer(canvas) {
 	this.width = canvas.width;
 	this.height = canvas.height;
-	var context = canvas.getContext("2d");
-	var imageData = context.getImageData(0, 0, this.width, this.height);
 	this.pixels = new Array();
 	
+	var context = canvas.getContext("2d");
+	var imageData = context.getImageData(0, 0, this.width, this.height);
 	var n = this.width * this.height;
+	
 	for (var i = 0; i < n; i++) {
-		var empty = (imageData.data[i * 4] == 0 && imageData.data[i * 4 + 1] == 0 && imageData.data[i * 4 + 2] == 0);
+		var empty = imageData.data[i * 4] == 0
+			&& imageData.data[i * 4 + 1] == 0
+			&& imageData.data[i * 4 + 2] == 0;
+		
 		this.pixels[i] = empty ? 0 : 1;
 	}
 	
