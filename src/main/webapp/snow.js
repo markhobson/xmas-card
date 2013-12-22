@@ -5,7 +5,7 @@ function main()
 	canvas.height = window.innerHeight;
 	
 	var context = canvas.getContext("2d");
-	context.fillStyle = '#000000';
+	context.fillStyle = "#000000";
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	
 	var n = 1000;
@@ -72,12 +72,12 @@ function Flake(x, y) {
 	this.stuck = false;
 	
 	this.clear = function(context) {
-		context.fillStyle = '#000000';
+		context.fillStyle = "#000000";
 		context.fillRect(this.x, this.y, 1, 1);
 	};
 	
 	this.paint = function(context) {
-		context.fillStyle = '#ffffff';
+		context.fillStyle = "#ffffff";
 		context.fillRect(this.x, this.y, 1, 1);
 	};
 	
