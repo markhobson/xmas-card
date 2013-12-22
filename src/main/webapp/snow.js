@@ -37,11 +37,7 @@ function Snow(canvas) {
 		return flakes;
 	};
 	
-	paintBackground(canvas);
-	var buffer = new Buffer(canvas);
-	var flakes = createFlakes(1000, buffer);
-	
-	this.animate = function() {
+	var animate = function() {
 		var context = canvas.getContext("2d");
 		
 		for (var i in flakes) {
@@ -59,7 +55,10 @@ function Snow(canvas) {
 		}
 	};
 	
-	setInterval(this.animate, 20);
+	paintBackground(canvas);
+	var buffer = new Buffer(canvas);
+	var flakes = createFlakes(1000, buffer);
+	setInterval(animate, 20);
 }
 
 function centerText(canvas, text, startColor, endColor) {
