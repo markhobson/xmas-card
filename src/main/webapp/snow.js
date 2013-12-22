@@ -8,6 +8,10 @@ function main()
 	context.fillStyle = "#000000";
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	
+	context.font = "bold 20px Georgia, serif";
+	context.fillStyle = "#ff0000";
+	centerText(canvas, "Merry Christmas!");
+	
 	var n = 1000;
 	var delay = 20;
 	
@@ -42,6 +46,21 @@ function main()
 			}
 		}
 	}, delay);
+}
+
+function centerText(canvas, text) {
+	var context = canvas.getContext("2d");
+	var metrics = context.measureText(text);
+	
+	var width = canvas.width * 3 / 4;
+	var scale = width / metrics.width;
+	
+	var x = (canvas.width - width) / 2;
+	var y = canvas.height / 2;
+	
+	context.scale(scale, scale);
+	context.fillText(text, x / scale, y / scale);
+	context.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 function Buffer(canvas) {
