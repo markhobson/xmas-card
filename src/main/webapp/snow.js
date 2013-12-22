@@ -48,15 +48,6 @@ function Flake(x, y) {
 	};
 	
 	this.move = function(canvas, context) {
-		var random = Math.random();
-		
-		if (random < 0.1) {
-			this.x--;
-		}
-		else if (random > 0.9) {
-			this.x++;
-		}
-		
 		this.y++;
 	};
 }
