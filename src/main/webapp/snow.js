@@ -18,6 +18,29 @@ function Snow(canvas) {
 		centerText(canvas, "Merry Christmas!", "#ff0000", "#400000");
 	};
 	
+	var centerText = function(canvas, text, startColor, endColor) {
+		var context = canvas.getContext("2d");
+		var metrics = context.measureText(text);
+		
+		var width = canvas.width * 3 / 4;
+		var scale = width / metrics.width;
+		
+		var x = (canvas.width - width) / 2;
+		var y = canvas.height / 2;
+		
+		var fontSize = 20;
+		var y1 = y / scale;
+		var y0 = y1 - fontSize * 3 / 4;
+		var gradient = context.createLinearGradient(0, y0, 0, y1);
+		gradient.addColorStop("0", startColor);
+		gradient.addColorStop("1", endColor);
+		context.fillStyle = gradient;
+
+		context.scale(scale, scale);
+		context.fillText(text, x / scale, y / scale);
+		context.setTransform(1, 0, 0, 1, 0, 0);
+	};
+
 	var createFlakes = function(n, buffer) {
 		var flakes = new Array();
 		
@@ -59,29 +82,6 @@ function Snow(canvas) {
 	var buffer = new Buffer(canvas);
 	var flakes = createFlakes(1000, buffer);
 	setInterval(animate, 20);
-}
-
-function centerText(canvas, text, startColor, endColor) {
-	var context = canvas.getContext("2d");
-	var metrics = context.measureText(text);
-	
-	var width = canvas.width * 3 / 4;
-	var scale = width / metrics.width;
-	
-	var x = (canvas.width - width) / 2;
-	var y = canvas.height / 2;
-	
-	var fontSize = 20;
-	var y1 = y / scale;
-	var y0 = y1 - fontSize * 3 / 4;
-	var gradient = context.createLinearGradient(0, y0, 0, y1);
-	gradient.addColorStop("0", startColor);
-	gradient.addColorStop("1", endColor);
-	context.fillStyle = gradient;
-
-	context.scale(scale, scale);
-	context.fillText(text, x / scale, y / scale);
-	context.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 function Buffer(canvas) {
