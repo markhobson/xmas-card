@@ -4,7 +4,8 @@ function main()
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	
-	new Snow(canvas);
+	var snow = new Snow(canvas);
+	snow.start();
 }
 
 function Snow(canvas) {
@@ -60,6 +61,10 @@ function Snow(canvas) {
 		return flakes;
 	};
 	
+	paintBackground(canvas);
+	var buffer = new Buffer(canvas);
+	var flakes = createFlakes(1000, buffer);
+	
 	var animate = function() {
 		var context = canvas.getContext("2d");
 		
@@ -78,10 +83,9 @@ function Snow(canvas) {
 		}
 	};
 	
-	paintBackground(canvas);
-	var buffer = new Buffer(canvas);
-	var flakes = createFlakes(1000, buffer);
-	setInterval(animate, 20);
+	this.start = function() {
+		setInterval(animate, 20);
+	};
 }
 
 function Buffer(canvas) {
