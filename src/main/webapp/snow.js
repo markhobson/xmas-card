@@ -18,7 +18,7 @@ function Snow(canvas) {
 	var n = 1000;
 	var delay = 20;
 	
-	var flakes = new Array();
+	this.flakes = new Array();
 	var buffer = new Buffer(canvas);
 	
 	for (var i = 0; i < n; i++) {
@@ -31,12 +31,14 @@ function Snow(canvas) {
 		}
 		while (buffer.getPixel(x, y) == 1);
 		
-		flakes[i] = new Flake(x, y);
+		this.flakes[i] = new Flake(x, y);
 	}
+
+	var self = this;
 	
-	setInterval(function() {
-		for (var i in flakes) {
-			var flake = flakes[i];
+	this.animate = function() {
+		for (var i in self.flakes) {
+			var flake = self.flakes[i];
 			
 			flake.clear(context);
 			flake.move(buffer);
@@ -48,7 +50,9 @@ function Snow(canvas) {
 				flake.reset(Math.floor(Math.random() * canvas.width), 0);
 			}
 		}
-	}, delay);
+	};
+	
+	setInterval(this.animate, delay);
 }
 
 function centerText(canvas, text, startColor, endColor) {
