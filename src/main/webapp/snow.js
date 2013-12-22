@@ -91,9 +91,13 @@ function Buffer(canvas) {
 }
 
 function Flake(x, y) {
-	this.x = x;
-	this.y = y;
-	this.stuck = false;
+	this.reset = function(x, y) {
+		this.x = x;
+		this.y = y;
+		this.stuck = false;
+	};
+	
+	this.reset(x, y);
 	
 	this.clear = function(context) {
 		this.paint(context, "#000000");
@@ -123,11 +127,5 @@ function Flake(x, y) {
 		else {
 			this.stuck = true;
 		}
-	};
-	
-	this.reset = function(x, y) {
-		this.x = x;
-		this.y = y;
-		this.stuck = false;
 	};
 }
