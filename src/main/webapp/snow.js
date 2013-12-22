@@ -15,25 +15,30 @@ function Snow(canvas) {
 	context.font = "bold 20px Georgia, serif";
 	centerText(canvas, "Merry Christmas!", "#ff0000", "#400000");
 	
-	var n = 1000;
 	var delay = 20;
-	
-	this.flakes = new Array();
 	var buffer = new Buffer(canvas);
 	
-	for (var i = 0; i < n; i++) {
-		var x;
-		var y;
+	this.createFlakes = function(n, buffer) {
+		var flakes = new Array();
 		
-		do {
-			x = Math.floor(Math.random() * canvas.width);
-			y = Math.floor(Math.random() * canvas.height);
+		for (var i = 0; i < n; i++) {
+			var x;
+			var y;
+			
+			do {
+				x = Math.floor(Math.random() * buffer.width);
+				y = Math.floor(Math.random() * buffer.height);
+			}
+			while (buffer.getPixel(x, y) == 1);
+			
+			flakes[i] = new Flake(x, y);
 		}
-		while (buffer.getPixel(x, y) == 1);
-		
-		this.flakes[i] = new Flake(x, y);
-	}
 
+		return flakes;
+	};
+	
+	this.flakes = this.createFlakes(1000, buffer);
+	
 	var self = this;
 	
 	this.animate = function() {
