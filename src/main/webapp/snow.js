@@ -9,8 +9,7 @@ function main()
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	
 	context.font = "bold 20px Georgia, serif";
-	context.fillStyle = "#ff0000";
-	centerText(canvas, "Merry Christmas!");
+	centerText(canvas, "Merry Christmas!", "#ff0000", "#400000");
 	
 	var n = 1000;
 	var delay = 20;
@@ -48,7 +47,7 @@ function main()
 	}, delay);
 }
 
-function centerText(canvas, text) {
+function centerText(canvas, text, startColor, endColor) {
 	var context = canvas.getContext("2d");
 	var metrics = context.measureText(text);
 	
@@ -58,6 +57,12 @@ function centerText(canvas, text) {
 	var x = (canvas.width - width) / 2;
 	var y = canvas.height / 2;
 	
+	var fontSize = 20;
+	var gradient = context.createLinearGradient(0, y / scale - fontSize * 3 / 4, 0, y / scale);
+	gradient.addColorStop("0", startColor);
+	gradient.addColorStop("1", endColor);
+	context.fillStyle = gradient;
+
 	context.scale(scale, scale);
 	context.fillText(text, x / scale, y / scale);
 	context.setTransform(1, 0, 0, 1, 0, 0);
