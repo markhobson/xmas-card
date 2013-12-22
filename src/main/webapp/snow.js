@@ -15,10 +15,7 @@ function Snow(canvas) {
 	context.font = "bold 20px Georgia, serif";
 	centerText(canvas, "Merry Christmas!", "#ff0000", "#400000");
 	
-	var delay = 20;
-	var buffer = new Buffer(canvas);
-	
-	this.createFlakes = function(n, buffer) {
+	var createFlakes = function(n, buffer) {
 		var flakes = new Array();
 		
 		for (var i = 0; i < n; i++) {
@@ -37,13 +34,12 @@ function Snow(canvas) {
 		return flakes;
 	};
 	
-	this.flakes = this.createFlakes(1000, buffer);
-	
-	var self = this;
+	var buffer = new Buffer(canvas);
+	var flakes = createFlakes(1000, buffer);
 	
 	this.animate = function() {
-		for (var i in self.flakes) {
-			var flake = self.flakes[i];
+		for (var i in flakes) {
+			var flake = flakes[i];
 			
 			flake.clear(context);
 			flake.move(buffer);
@@ -57,7 +53,7 @@ function Snow(canvas) {
 		}
 	};
 	
-	setInterval(this.animate, delay);
+	setInterval(this.animate, 20);
 }
 
 function centerText(canvas, text, startColor, endColor) {
