@@ -58,7 +58,9 @@ function centerText(canvas, text, startColor, endColor) {
 	var y = canvas.height / 2;
 	
 	var fontSize = 20;
-	var gradient = context.createLinearGradient(0, y / scale - fontSize * 3 / 4, 0, y / scale);
+	var y1 = y / scale;
+	var y0 = y1 - fontSize * 3 / 4;
+	var gradient = context.createLinearGradient(0, y0, 0, y1);
 	gradient.addColorStop("0", startColor);
 	gradient.addColorStop("1", endColor);
 	context.fillStyle = gradient;
