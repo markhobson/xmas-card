@@ -8,34 +8,68 @@ function main()
 	context.fillStyle = '#000000';
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	
-	var n = 100;
+	var n = 1000;
 	var delay = 20;
 	
 	var flakes = new Array();
+	var buffer = new Buffer(canvas);
 	
 	for (var i = 0; i < n; i++) {
-		var x = Math.floor(Math.random() * canvas.width);
-		var y = Math.floor(Math.random() * canvas.height);
+		var x;
+		var y;
+		
+		do {
+			x = Math.floor(Math.random() * canvas.width);
+			y = Math.floor(Math.random() * canvas.height);
+		}
+		while (buffer.getPixel(x, y) == 1);
 		
 		flakes[i] = new Flake(x, y);
 	}
 	
 	setInterval(function() {
 		for (var i in flakes) {
-			flakes[i].clear(context);
-			flakes[i].move(canvas, context);
-			flakes[i].paint(context);
+			var flake = flakes[i];
 			
-			if (flakes[i].y == canvas.height - 1) {
-				flakes[i].y = 0;
+			flake.clear(context);
+			flake.move(buffer);
+			flake.paint(context);
+			
+			if (flake.stuck || flake.y == canvas.height - 1) {
+				buffer.setPixel(flake.x, flake.y, 1);
+				
+				flake.reset(Math.floor(Math.random() * canvas.width), 0);
 			}
 		}
 	}, delay);
 }
 
+function Buffer(canvas) {
+	this.width = canvas.width;
+	this.height = canvas.height;
+	var context = canvas.getContext("2d");
+	var imageData = context.getImageData(0, 0, this.width, this.height);
+	this.pixels = new Array();
+	
+	var n = this.width * this.height;
+	for (var i = 0; i < n; i++) {
+		var empty = (imageData.data[i * 4] == 0 && imageData.data[i * 4 + 1] == 0 && imageData.data[i * 4 + 2] == 0);
+		this.pixels[i] = empty ? 0 : 1;
+	}
+	
+	this.getPixel = function(x, y) {
+		return this.pixels[this.width * y + x];
+	};
+	
+	this.setPixel = function(x, y, p) {
+		this.pixels[this.width * y + x] = p;
+	};
+}
+
 function Flake(x, y) {
 	this.x = x;
 	this.y = y;
+	this.stuck = false;
 	
 	this.clear = function(context) {
 		context.fillStyle = '#000000';
@@ -47,7 +81,26 @@ function Flake(x, y) {
 		context.fillRect(this.x, this.y, 1, 1);
 	};
 	
-	this.move = function(canvas, context) {
-		this.y++;
+	this.move = function(buffer) {
+		if (buffer.getPixel(this.x, this.y + 1) == 0) {
+			this.y++;
+		}
+		else if (buffer.getPixel(this.x - 1, this.y + 1) == 0) {
+			this.x--;
+			this.y++;
+		}
+		else if (buffer.getPixel(this.x + 1, this.y + 1) == 0) {
+			this.x++;
+			this.y++;
+		}
+		else {
+			this.stuck = true;
+		}
+	};
+	
+	this.reset = function(x, y) {
+		this.x = x;
+		this.y = y;
+		this.stuck = false;
 	};
 }
