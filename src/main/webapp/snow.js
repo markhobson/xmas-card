@@ -8,12 +8,15 @@ function main()
 }
 
 function Snow(canvas) {
-	var context = canvas.getContext("2d");
-	context.fillStyle = "#000000";
-	context.fillRect(0, 0, canvas.width, canvas.height);
-	
-	context.font = "bold 20px Georgia, serif";
-	centerText(canvas, "Merry Christmas!", "#ff0000", "#400000");
+	var paintBackground = function(canvas) {
+		var context = canvas.getContext("2d");
+		
+		context.fillStyle = "#000000";
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		
+		context.font = "bold 20px Georgia, serif";
+		centerText(canvas, "Merry Christmas!", "#ff0000", "#400000");
+	};
 	
 	var createFlakes = function(n, buffer) {
 		var flakes = new Array();
@@ -34,10 +37,13 @@ function Snow(canvas) {
 		return flakes;
 	};
 	
+	paintBackground(canvas);
 	var buffer = new Buffer(canvas);
 	var flakes = createFlakes(1000, buffer);
 	
 	this.animate = function() {
+		var context = canvas.getContext("2d");
+		
 		for (var i in flakes) {
 			var flake = flakes[i];
 			
