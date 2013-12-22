@@ -96,12 +96,15 @@ function Flake(x, y) {
 	this.stuck = false;
 	
 	this.clear = function(context) {
-		context.fillStyle = "#000000";
-		context.fillRect(this.x, this.y, 1, 1);
+		this.paint(context, "#000000");
 	};
 	
-	this.paint = function(context) {
-		context.fillStyle = "#ffffff";
+	this.paint = function(context, color) {
+		if (color === undefined) {
+			color = "#ffffff";
+		}
+		
+		context.fillStyle = color;
 		context.fillRect(this.x, this.y, 1, 1);
 	};
 	
