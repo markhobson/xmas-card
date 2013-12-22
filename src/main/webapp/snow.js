@@ -4,6 +4,10 @@ function main()
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	
+	new Snow(canvas);
+}
+
+function Snow(canvas) {
 	var context = canvas.getContext("2d");
 	context.fillStyle = "#000000";
 	context.fillRect(0, 0, canvas.width, canvas.height);
