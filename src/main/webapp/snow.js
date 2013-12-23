@@ -89,28 +89,40 @@ function Snow(canvas) {
 }
 
 function Buffer(canvas) {
-	this.width = canvas.width;
-	this.height = canvas.height;
-	this.pixels = new Array();
+	var self = this;
 	
-	var context = canvas.getContext("2d");
-	var imageData = context.getImageData(0, 0, this.width, this.height);
-	var n = this.width * this.height;
-	
-	for (var i = 0; i < n; i++) {
-		var empty = imageData.data[i * 4] == 0
-			&& imageData.data[i * 4 + 1] == 0
-			&& imageData.data[i * 4 + 2] == 0;
+	var createPixels = function(canvas) {
+		var context = canvas.getContext("2d");
+		var imageData = context.getImageData(0, 0, self.width, self.height);
 		
-		this.pixels[i] = empty ? 0 : 1;
-	}
-	
-	this.getPixel = function(x, y) {
-		return this.pixels[this.width * y + x];
+		var n = self.width * self.height;
+		var pixels = new Array();
+		
+		for (var i = 0; i < n; i++) {
+			pixels[i] = isEmpty(imageData, i) ? 0 : 1;
+		}
+
+		return pixels;
 	};
 	
-	this.setPixel = function(x, y, p) {
-		this.pixels[this.width * y + x] = p;
+	var isEmpty = function(imageData, pixelIndex) {
+		var dataIndex = pixelIndex * 4;
+		
+		return imageData.data[dataIndex] == 0
+			&& imageData.data[dataIndex + 1] == 0
+			&& imageData.data[dataIndex + 2] == 0;
+	};
+	
+	self.width = canvas.width;
+	self.height = canvas.height;
+	var pixels = createPixels(canvas);
+	
+	self.getPixel = function(x, y) {
+		return pixels[self.width * y + x];
+	};
+	
+	self.setPixel = function(x, y, p) {
+		pixels[self.width * y + x] = p;
 	};
 }
 
