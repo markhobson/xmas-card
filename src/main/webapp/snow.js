@@ -9,17 +9,17 @@ function main()
 }
 
 function Snow(canvas) {
-	var paintBackground = function(canvas) {
+	var paintBackground = function() {
 		var context = canvas.getContext("2d");
 		
 		context.fillStyle = "#000000";
 		context.fillRect(0, 0, canvas.width, canvas.height);
 		
 		context.font = "bold 20px Georgia, serif";
-		centerText(canvas, "Merry Christmas!", "#ff0000", "#400000");
+		centerText("Merry Christmas!", "#ff0000", "#400000");
 	};
 	
-	var centerText = function(canvas, text, startColor, endColor) {
+	var centerText = function(text, startColor, endColor) {
 		var context = canvas.getContext("2d");
 		var metrics = context.measureText(text);
 		
@@ -61,7 +61,7 @@ function Snow(canvas) {
 		return flakes;
 	};
 	
-	paintBackground(canvas);
+	paintBackground();
 	var buffer = new Buffer(canvas);
 	var flakes = createFlakes(1000, buffer);
 	
@@ -91,7 +91,7 @@ function Snow(canvas) {
 function Buffer(canvas) {
 	var self = this;
 	
-	var createPixels = function(canvas) {
+	var createPixels = function() {
 		var context = canvas.getContext("2d");
 		var imageData = context.getImageData(0, 0, self.width, self.height);
 		
@@ -115,7 +115,7 @@ function Buffer(canvas) {
 	
 	self.width = canvas.width;
 	self.height = canvas.height;
-	var pixels = createPixels(canvas);
+	var pixels = createPixels();
 	
 	self.getPixel = function(x, y) {
 		return pixels[self.width * y + x];
