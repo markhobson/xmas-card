@@ -1,4 +1,4 @@
 Xmas Card
 =========
 
-An HTML canvas Christmas card
+An HTML canvas Christmas card.
