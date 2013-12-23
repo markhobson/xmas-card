@@ -4,11 +4,11 @@ function main()
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 	
-	var snow = new Snow(canvas);
-	snow.start();
+	var card = new Card(canvas);
+	card.start();
 }
 
-function Snow(canvas) {
+function Card(canvas) {
 	var paintBackground = function() {
 		var context = canvas.getContext("2d");
 		
