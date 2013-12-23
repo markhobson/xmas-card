@@ -155,15 +155,17 @@ function Flake(x, y) {
 	};
 	
 	self.move = function(buffer) {
+		var dx = Math.random() < 0.5 ? -1 : 1;
+		
 		if (isEmpty(buffer, 0, 1)) {
 			self.y++;
 		}
-		else if (isEmpty(buffer, -1, 1)) {
-			self.x--;
+		else if (isEmpty(buffer, dx, 1)) {
+			self.x += dx;
 			self.y++;
 		}
-		else if (isEmpty(buffer, 1, 1)) {
-			self.x++;
+		else if (isEmpty(buffer, -dx, 1)) {
+			self.x -= dx;
 			self.y++;
 		}
 		else {
