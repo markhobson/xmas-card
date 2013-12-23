@@ -127,41 +127,47 @@ function Buffer(canvas) {
 }
 
 function Flake(x, y) {
-	this.reset = function(x, y) {
-		this.x = x;
-		this.y = y;
-		this.stuck = false;
+	var self = this;
+	
+	self.reset = function(x, y) {
+		self.x = x;
+		self.y = y;
+		self.stuck = false;
 	};
 	
-	this.reset(x, y);
+	self.reset(x, y);
 	
-	this.clear = function(context) {
-		this.paint(context, "#000000");
-	};
-	
-	this.paint = function(context, color) {
-		if (color === undefined) {
-			color = "#ffffff";
-		}
-		
+	var paint = function(context, color) {
 		context.fillStyle = color;
-		context.fillRect(this.x, this.y, 1, 1);
+		context.fillRect(self.x, self.y, 1, 1);
 	};
 	
-	this.move = function(buffer) {
-		if (buffer.getPixel(this.x, this.y + 1) == 0) {
-			this.y++;
+	self.clear = function(context) {
+		paint(context, "#000000");
+	};
+	
+	self.paint = function(context, color) {
+		paint(context, "#ffffff");
+	};
+	
+	var isEmpty = function(buffer, dx, dy) {
+		return buffer.getPixel(self.x + dx, self.y + dy) == 0;
+	};
+	
+	self.move = function(buffer) {
+		if (isEmpty(buffer, 0, 1)) {
+			self.y++;
 		}
-		else if (buffer.getPixel(this.x - 1, this.y + 1) == 0) {
-			this.x--;
-			this.y++;
+		else if (isEmpty(buffer, -1, 1)) {
+			self.x--;
+			self.y++;
 		}
-		else if (buffer.getPixel(this.x + 1, this.y + 1) == 0) {
-			this.x++;
-			this.y++;
+		else if (isEmpty(buffer, 1, 1)) {
+			self.x++;
+			self.y++;
 		}
 		else {
-			this.stuck = true;
+			self.stuck = true;
 		}
 	};
 }
