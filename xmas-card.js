@@ -146,7 +146,7 @@ function Flake(x, y) {
 		paint(context, "#000000");
 	};
 	
-	self.paint = function(context, color) {
+	self.paint = function(context) {
 		paint(context, "#ffffff");
 	};
 	
