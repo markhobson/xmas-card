@@ -78,7 +78,8 @@ function Card(canvas) {
 			if (flake.stuck || flake.y == canvas.height - 1) {
 				buffer.setPixel(flake.x, flake.y, 1);
 				
-				flake.reset(Math.floor(Math.random() * canvas.width), 0);
+				var x = Math.floor(Math.random() * canvas.width);
+				flake.reset(x, 0);
 			}
 		}
 	};
